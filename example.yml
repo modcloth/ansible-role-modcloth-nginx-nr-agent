@@ -1,0 +1,4 @@
+---
+- hosts: all
+  roles:
+  - role: modcloth.nginx-nr-agent
