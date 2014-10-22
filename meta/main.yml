@@ -1,0 +1,14 @@
+---
+galaxy_info:
+  author: Jesse Szwedko
+  description: Role that installs and configures nginx-nr-agent
+  company: ModCloth, Inc.
+  license: MIT
+  min_ansible_version: 1.7
+  platforms:
+  - name: Ubuntu
+    versions:
+    - trusty
+  categories:
+  - monitoring
+dependencies: []

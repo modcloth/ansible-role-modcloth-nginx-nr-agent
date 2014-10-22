@@ -1,0 +1,66 @@
+# {{ansible_managed}}
+# vim: ft=dosini
+
+[global]
+newrelic_license_key={{new_relic_license_key}}
+poll_interval={{nginx_nr_agent_poll_interval}}
+
+# logging settings
+
+{% if nginx_nr_agent_loggers|length > 0 %}
+[loggers]
+keys={{nginx_nr_agent_loggers|map(attribute='name')|join(',')}} {% endif %}
+
+{% if nginx_nr_agent_handlers|length > 0 %}
+[handlers]
+keys={{nginx_nr_agent_handlers|map(attribute='name')|join(',')}}
+{% endif %}
+
+{% if nginx_nr_agent_formatters|length > 0 %}
+[formatters]
+keys={{nginx_nr_agent_formatters|map(attribute='name')|join(',')}}
+{% endif %}
+
+{% for logger in nginx_nr_agent_loggers %}
+[logger_{{logger.name}}]
+handlers={{logger.handlers|join(',')}}
+{% if logger.level is defined %}
+level={{logger.level}}
+{% endif %}
+
+{% endfor %}
+
+{% for handler in nginx_nr_agent_handlers %}
+[handler_{{handler.name}}]
+class={{handler.class}}
+formatter={{handler.formatter}}
+{% if handler.level is defined %}
+level={{handler.level}}
+{% endif %}
+{% if handler.args is defined %}
+args={{handler.args}}
+{% endif %}
+
+{% endfor %}
+
+{% for formatter in nginx_nr_agent_formatters %}
+[formatter_{{formatter.name}}]
+format={{formatter.format}}
+{% if formatter.datefmt is defined %}
+datefmt={{formatter.datefmt}}
+{% endif %}
+
+{% endfor %}
+
+{% for source in nginx_nr_agent_sources %}
+[{{source.name}}]
+name={{source.name}}
+url={{source.url}}
+{% if source.http_user is defined %}
+http_user={{source.http_user}}
+{% endif %}
+{% if source.http_password is defined %}
+http_password={{source.http_password}}
+{% endif %}
+
+{% endfor %}
