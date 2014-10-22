@@ -2,3 +2,4 @@
 - hosts: all
   roles:
   - role: modcloth.nginx-nr-agent
+    new_relic_license_key: 'ABCD'
