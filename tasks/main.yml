@@ -1,0 +1,23 @@
+---
+- name: 'add nginx apt key'
+  apt_key: url=http://nginx.org/keys/nginx_signing.key
+
+- name: 'add nginx repository'
+  apt_repository: repo='{{nginx_nr_agent_apt_repository}}'
+
+- name: 'install nginx-nr-agent'
+  apt: name=nginx-nr-agent
+
+- name: 'install nginx-nr-agent config'
+  template:
+    src='{{nginx_nr_agent_config_template}}'
+    dest=/etc/nginx-nr-agent/nginx-nr-agent.ini
+  register: nginx_nr_agent_config
+  when: nginx_nr_agent_config_template != ""
+
+- name: 'restart nginx-nr-agent'
+  service: name=nginx-nr-agent state=restarted
+  when: nginx_nr_agent_config.changed
+
+- name: 'start nginx-nr-agent'
+  service: name=nginx-nr-agent state=started
