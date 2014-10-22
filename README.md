@@ -71,6 +71,9 @@ Example Playbook
   - role: modcloth.nginx-nr-agent
     new_relic_license_key: 'ABCD'
     nginx_nr_agent_poll_interval: 10
+    nginx_nr_agent_sources:
+      name: 'FOO'
+      url: 'http://example.com:80/stats'
 ```
 
 License
