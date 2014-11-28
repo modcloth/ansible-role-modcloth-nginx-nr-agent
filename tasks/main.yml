@@ -21,3 +21,4 @@
 
 - name: 'start nginx-nr-agent'
   service: name=nginx-nr-agent state=started
+  when: nginx_nr_agent_config.changed
